@@ -1,4 +1,5 @@
 (ns pll-order.core)
+(load "core_perms")
 (load "core_plls")
 
 (defn foo
