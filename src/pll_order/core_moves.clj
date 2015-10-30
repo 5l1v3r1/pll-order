@@ -17,7 +17,7 @@
   (let [rings {\R '(8 5 2 27 30 33 17 14 11 26 23 20)
                \L '(0 3 6 18 21 24 9 12 15 35 32 29)
                \F '(6 7 8 36 39 42 11 10 9 53 50 47)
-               \B '(3 2 1 45 48 51 15 16 17 44 41 38)
+               \B '(2 1 0 45 48 51 15 16 17 44 41 38)
                \U '(20 19 18 47 46 45 29 28 27 38 37 36)
                \D '(24 25 26 42 43 44 33 34 35 51 52 53)}
         surfaces {\R '(36 37 38 41 44 43 42 39)
@@ -34,14 +34,15 @@
   [moveSymbol]
   (let [s (str moveSymbol)
         pow (cond (= 1 (count s)) 1 (= \2 (get s 1)) 2 :else 3)
-        faceperms (take-nth 0 `(~(face-permutation s)))]
+        faceperms (take-nth 0 `(~(face-permutation (get s 0))))]
     (apply comp (take pow faceperms))))
 
 (defn alg-permutation
   "Turn a list of symbols representing moves into a permutation"
-  [& moves]
+  [moves]
   (if (seq moves)
-      (comp (move-permutation (first moves)) (apply alg-permutation (rest moves)))
+      (comp (move-permutation (first moves))
+            (alg-permutation (rest moves)))
       identity-perm))
 
 (defn cubes-equal
