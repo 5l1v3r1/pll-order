@@ -32,13 +32,10 @@
 (defn- move-permutation
   "Turn a move symbol into a permutation"
   [moveSymbol]
-  (let [s (str moveSymbol)]
-    (cond (= 1 (count s))
-          (face-permutation s)
-          (= \2 (get s 1))
-          (comp (face-permutation s) (face-permutation s))
-          :else
-          (comp (face-permutation s) (face-permutation s) (face-permutation s)))))
+  (let [s (str moveSymbol)
+        pow (cond (= 1 (count s)) 1 (= \2 (get s 1)) 2 :else 3)
+        faceperms (take-nth 0 `(~(face-permutation s)))]
+    (apply comp (take pow faceperms))))
 
 (defn alg-permutation
   "Turn a list of symbols representing moves into a permutation"
