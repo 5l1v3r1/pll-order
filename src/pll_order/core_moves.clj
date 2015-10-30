@@ -44,3 +44,7 @@
       (comp (move-permutation (first moves)) (apply alg-permutation (rest moves)))
       identity-perm))
 
+(defn cubes-equal
+  "Check if two cubes (i.e. permutations) are equal"
+  [x y]
+  (= (map x (range 54)) (map y (range 54))))
