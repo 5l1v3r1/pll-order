@@ -20,9 +20,9 @@
 
 (defn compute-percent-solved
   []
-  (loop [i 1000 c 0]
+  (loop [i 50000 c 0]
     (if (zero? i)
-        (float (/ c 10))
+        (float (/ c 500))
         (let [s (scramble-sequence (keys plls))
               perms (map plls s)
               cube (apply comp perms)]

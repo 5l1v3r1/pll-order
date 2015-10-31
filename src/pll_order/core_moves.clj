@@ -37,15 +37,26 @@
         faceperms (take-nth 0 `(~(face-permutation (get s 0))))]
     (apply comp (take pow faceperms))))
 
-(defn alg-permutation
-  "Turn a list of symbols representing moves into a permutation"
+(defn- optimize-cube
+  "Improve performance by caching the result for each input of a permutation."
+  [perm]
+  (let [nums (vec (map perm (range 54)))]
+    #(get nums %)))
+
+(defn- unoptimized-alg-permutation
+  "Turn a list of symbols representing moves into an unoptimized permutation."
   [moves]
   (if (seq moves)
       (comp (move-permutation (first moves))
-            (alg-permutation (rest moves)))
+            (unoptimized-alg-permutation (rest moves)))
       identity-perm))
 
+(defn alg-permutation
+  "Turn a list of move symbols into a permutation."
+  [x]
+  (optimize-cube (unoptimized-alg-permutation x)))
+
 (defn cubes-equal
-  "Check if two cubes (i.e. permutations) are equal"
+  "Check if two cubes (i.e. permutations) are equal."
   [x y]
   (= (map x (range 54)) (map y (range 54))))
