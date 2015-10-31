@@ -11,17 +11,17 @@
           cube (apply comp perms)]
       (if (cubes-equal identity-perm cube) s (recur)))))
 
+(defn solved-indicator
+  []
+  (let [s (shuffle pll-keywords)
+        perms (map plls s)
+        cube (apply comp perms)]
+    (if (cubes-equal identity-perm cube) 1 0)))
+
 (defn compute-percent-solved
   []
-  (loop [i 1000000 c 0]
-    (if (zero? i)
-        (float (/ c 10000))
-        (let [s (shuffle pll-keywords)
-              perms (map plls s)
-              cube (apply comp perms)]
-          (if (cubes-equal identity-perm cube)
-              (recur (dec i) (inc c))
-              (recur (dec i) c))))))
+  (let [count (reduce + (repeatedly 1000000 solved-indicator))]
+    (float (/ count 10000))))
 
 (defn -main
   "Find an order of PLLs to arrive at the identity."
