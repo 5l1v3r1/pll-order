@@ -3,27 +3,20 @@
 (load "core_moves")
 (load "core_plls")
 
-(defn- scramble-sequence
-  [s]
-  (if (<= (count s) 1) s
-      (let [el (rand-nth s)]
-        (cons el (scramble-sequence (remove #(= el %) s))))))
-
 (defn find-identity-perm
   []
-  (let [s0 (keys plls)]
-    (loop []
-      (let [s (scramble-sequence s0)
-            perms (map plls s)
-            cube (apply comp perms)]
-        (if (cubes-equal identity-perm cube) s (recur))))))
+  (loop []
+    (let [s (shuffle pll-keywords)
+          perms (map plls s)
+          cube (apply comp perms)]
+      (if (cubes-equal identity-perm cube) s (recur)))))
 
 (defn compute-percent-solved
   []
-  (loop [i 50000 c 0]
+  (loop [i 1000000 c 0]
     (if (zero? i)
-        (float (/ c 500))
-        (let [s (scramble-sequence (keys plls))
+        (float (/ c 10000))
+        (let [s (shuffle pll-keywords)
               perms (map plls s)
               cube (apply comp perms)]
           (if (cubes-equal identity-perm cube)

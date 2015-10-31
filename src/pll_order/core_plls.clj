@@ -23,3 +23,5 @@
   :V  (alg-permutation '(R' U R' U' B' R' B2 U' B' U B' R B R))
   :Y  (alg-permutation '(F R U' R' U' R U R' F' R U R' U' R' F R F'))
 })
+
+(def pll-keywords (keys plls))
