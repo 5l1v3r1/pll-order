@@ -18,8 +18,4 @@
 (defn multicycle
   "Create an application of multiple cycles"
   [& cycles]
-  (loop [f identity-perm c cycles]
-    (if (seq c)
-        (recur (comp f (apply cycle-perm (first c)))
-               (rest c))
-        f)))
+  (apply comp (map #(apply cycle-perm %) cycles)))
