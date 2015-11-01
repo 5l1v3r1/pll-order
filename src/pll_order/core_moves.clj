@@ -34,8 +34,8 @@
   [moveSymbol]
   (let [s (str moveSymbol)
         pow (cond (= 1 (count s)) 1 (= \2 (get s 1)) 2 :else 3)
-        faceperms (take-nth 0 `(~(face-permutation (get s 0))))]
-    (apply comp (take pow faceperms))))
+        perms (repeatedly pow #(face-permutation (get s 0)))]
+    (apply comp perms)))
 
 (defn- optimize-cube
   "Improve performance by caching the result for each input of a permutation."
