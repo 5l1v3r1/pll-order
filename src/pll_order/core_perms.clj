@@ -2,18 +2,17 @@
 
 (def identity-perm identity)
 
-(defn cycle-to-map
+(defn- cycle-to-map
   "Turn a cycle (list of indices) into a map"
-  [& indices]
-  (loop [i indices l (last indices) m {}]
-    (if (seq i)
-        (recur (rest i) (first i) (assoc m (first i) l))
-        m)))
+  [indices]
+  (first (reduce (fn [[m l] i] [(assoc m i l) i])
+                 [{} (last indices)]
+                 indices)))
 
 (defn cycle-perm
   "Create a forward cycle permutation"
   [& indices]
-  (let [m (apply cycle-to-map indices)]
+  (let [m (cycle-to-map indices)]
     #(or (get m %) %)))
 
 (defn multicycle
